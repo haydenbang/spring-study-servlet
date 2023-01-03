@@ -25,28 +25,27 @@ import java.util.Map;
 @WebServlet(name = "frontControllerServletV5", urlPatterns = "/front-controller/v5/*")
 public class FrontControllerServletV5 extends HttpServlet {
 
-    private final Map<String, Object> handleMappingMap = new HashMap<>();
+    private final Map<String, Object> handlerMappingMap = new HashMap<>();
     private final List<MyHandlerAdapter> handlerAdapters = new ArrayList<>();
-
-
 
     public FrontControllerServletV5() {
         initHandlerMappingMap();
         initHandlerAdapters();
     }
 
+    private void initHandlerMappingMap() {
+        handlerMappingMap.put("/front-controller/v5/v3/members/new-form", new MemberFormControllerV3());
+        handlerMappingMap.put("/front-controller/v5/v3/members/save", new MemberSaveControllerV3());
+        handlerMappingMap.put("/front-controller/v5/v3/members", new MemberListControllerV3());
+
+        handlerMappingMap.put("/front-controller/v5/v4/members/new-form", new MemberFormControllerV4());
+        handlerMappingMap.put("/front-controller/v5/v4/members/save", new MemberSaveControllerV4());
+        handlerMappingMap.put("/front-controller/v5/v4/members", new MemberListControllerV4());
+    }
+
     private void initHandlerAdapters() {
         handlerAdapters.add(new ControllerV3HandlerAdapter());
         handlerAdapters.add(new ControllerV4HandlerAdapter());
-    }
-
-    private void initHandlerMappingMap() {
-        handleMappingMap.put("/front-controller/v5/v3/members/new-form", new MemberFormControllerV3());
-        handleMappingMap.put("/front-controller/v5/v3/members/save", new MemberSaveControllerV3());
-        handleMappingMap.put("/front-controller/v5/v3/members", new MemberListControllerV3());
-        handleMappingMap.put("/front-controller/v5/v4/members/new-form", new MemberFormControllerV4());
-        handleMappingMap.put("/front-controller/v5/v4/members/save", new MemberSaveControllerV4());
-        handleMappingMap.put("/front-controller/v5/v4/members", new MemberListControllerV4());
     }
 
     @Override
@@ -56,29 +55,27 @@ public class FrontControllerServletV5 extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
-
         MyHandlerAdapter adapter = getHandlerAdapter(handler);
 
-        ModelView modelView = adapter.handle(request, response, handler);
-
-        String viewName = modelView.getViewName();
+        ModelView mv = adapter.handle(request, response, handler);
+        String viewName = mv.getViewName();
         MyView view = viewResolver(viewName);
 
-        view.render(modelView.getModel(), request, response);
+        view.render(mv.getModel(), request, response);
     }
 
     private MyHandlerAdapter getHandlerAdapter(Object handler) {
         for (MyHandlerAdapter adapter : handlerAdapters) {
-            if ( adapter.supports(handler)) {
+            if (adapter.supports(handler)) {
                 return adapter;
             }
         }
-        throw new IllegalArgumentException("handler adapter를 찾을 수 없습니다. = " + handler);
+        throw new IllegalArgumentException("handler adapter not found = " + handler);
     }
 
     private Object getHandler(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
-        return handleMappingMap.get(requestURI);
+        return handlerMappingMap.get(requestURI);
     }
 
     private MyView viewResolver(String viewName) {

@@ -1,7 +1,6 @@
 package resilience.servlet.web.frontcontroller.v2;
 
 import resilience.servlet.web.frontcontroller.MyView;
-import resilience.servlet.web.frontcontroller.v1.ControllerV1;
 import resilience.servlet.web.frontcontroller.v2.controller.MemberFormControllerV2;
 import resilience.servlet.web.frontcontroller.v2.controller.MemberListControllerV2;
 import resilience.servlet.web.frontcontroller.v2.controller.MemberSaveControllerV2;
@@ -28,8 +27,6 @@ public class FrontControllerServletV2 extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("FrontControllerServletV1.service");
-
         String requestURI = request.getRequestURI();
 
         ControllerV2 controller = controllerMap.get(requestURI);

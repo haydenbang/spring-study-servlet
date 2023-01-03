@@ -1,8 +1,8 @@
 package resilience.servlet.web.frontcontroller.v1;
 
 import resilience.servlet.web.frontcontroller.v1.controller.MemberFormControllerV1;
-import resilience.servlet.web.frontcontroller.v1.controller.MemberListControllerV1;
-import resilience.servlet.web.frontcontroller.v1.controller.MemberSaveControllerV1;
+import resilience.servlet.web.frontcontroller.v1.controller.MemberListContollerV1;
+import resilience.servlet.web.frontcontroller.v1.controller.MemberSaveContollerV1;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,14 +20,12 @@ public class FrontControllerServletV1 extends HttpServlet {
 
     public FrontControllerServletV1() {
         controllerMap.put("/front-controller/v1/members/new-form", new MemberFormControllerV1());
-        controllerMap.put("/front-controller/v1/members/save", new MemberSaveControllerV1());
-        controllerMap.put("/front-controller/v1/members", new MemberListControllerV1());
+        controllerMap.put("/front-controller/v1/members/save", new MemberSaveContollerV1());
+        controllerMap.put("/front-controller/v1/members", new MemberListContollerV1());
     }
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("FrontControllerServletV1.service");
-
         String requestURI = request.getRequestURI();
 
         ControllerV1 controller = controllerMap.get(requestURI);

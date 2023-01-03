@@ -1,6 +1,7 @@
 package resilience.servlet.web.frontcontroller.v5.adapter;
 
 import resilience.servlet.web.frontcontroller.ModelView;
+import resilience.servlet.web.frontcontroller.v3.ControllerV3;
 import resilience.servlet.web.frontcontroller.v4.ControllerV4;
 import resilience.servlet.web.frontcontroller.v5.MyHandlerAdapter;
 
@@ -18,16 +19,17 @@ public class ControllerV4HandlerAdapter implements MyHandlerAdapter {
     }
 
     @Override
-    public ModelView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException, ServletException {
-        ControllerV4 controllerV4 = (ControllerV4) handler;
+    public ModelView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws ServletException, IOException {
+        ControllerV4 controller = (ControllerV4) handler;
+
         Map<String, String> paramMap = createParamMap(request);
-        Map<String, Object> model = new HashMap<>();
-        String viewName = controllerV4.process(paramMap, model);
+        HashMap<String, Object> model = new HashMap<>();
 
-        ModelView modelView = new ModelView(viewName);
-        modelView.setModel(model);
+        String viewName = controller.process(paramMap, model);
+        ModelView mv = new ModelView(viewName);
+        mv.setModel(model);
 
-        return modelView;
+        return mv;
     }
 
     private Map<String, String> createParamMap(HttpServletRequest request) {

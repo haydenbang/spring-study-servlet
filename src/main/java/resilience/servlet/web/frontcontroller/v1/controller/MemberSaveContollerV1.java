@@ -10,12 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class MemberSaveControllerV1 implements ControllerV1 {
-
+public class MemberSaveContollerV1 implements ControllerV1 {
 
     private MemberRepository memberRepository = MemberRepository.getInstance();
+
     @Override
-    public void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("MemberSaveServlet.service");
 
         String userName = request.getParameter("username");
         int age = Integer.parseInt(request.getParameter("age"));

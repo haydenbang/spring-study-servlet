@@ -1,7 +1,9 @@
 package resilience.servlet.web.frontcontroller.v3;
 
+import org.apache.taglibs.standard.lang.jstl.EnumeratedMap;
 import resilience.servlet.web.frontcontroller.ModelView;
 import resilience.servlet.web.frontcontroller.MyView;
+import resilience.servlet.web.frontcontroller.v2.ControllerV2;
 import resilience.servlet.web.frontcontroller.v3.controller.MemberFormControllerV3;
 import resilience.servlet.web.frontcontroller.v3.controller.MemberListControllerV3;
 import resilience.servlet.web.frontcontroller.v3.controller.MemberSaveControllerV3;
@@ -37,12 +39,10 @@ public class FrontControllerServletV3 extends HttpServlet {
         }
 
         Map<String, String> paramMap = createParamMap(request);
-        ModelView modelView = controller.process(paramMap);
-
-        String viewName = modelView.getViewName();
+        ModelView mv = controller.process(paramMap);
+        String viewName = mv.getViewName();
         MyView view = viewResolver(viewName);
-
-        view.render(modelView.getModel(), request, response);
+        view.render(mv.getModel(), request, response);
     }
 
     private MyView viewResolver(String viewName) {

@@ -18,10 +18,11 @@ public class ControllerV3HandlerAdapter implements MyHandlerAdapter {
     }
 
     @Override
-    public ModelView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException, ServletException {
-        ControllerV3 controllerV3 = (ControllerV3) handler;
+    public ModelView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws ServletException, IOException {
+        ControllerV3 controller = (ControllerV3) handler;
         Map<String, String> paramMap = createParamMap(request);
-        return controllerV3.process(paramMap);
+        ModelView mv = controller.process(paramMap);
+        return mv;
     }
 
     private Map<String, String> createParamMap(HttpServletRequest request) {

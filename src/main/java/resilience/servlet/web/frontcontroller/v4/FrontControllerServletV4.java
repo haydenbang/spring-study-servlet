@@ -2,6 +2,10 @@ package resilience.servlet.web.frontcontroller.v4;
 
 import resilience.servlet.web.frontcontroller.ModelView;
 import resilience.servlet.web.frontcontroller.MyView;
+import resilience.servlet.web.frontcontroller.v3.ControllerV3;
+import resilience.servlet.web.frontcontroller.v3.controller.MemberFormControllerV3;
+import resilience.servlet.web.frontcontroller.v3.controller.MemberListControllerV3;
+import resilience.servlet.web.frontcontroller.v3.controller.MemberSaveControllerV3;
 import resilience.servlet.web.frontcontroller.v4.controller.MemberFormControllerV4;
 import resilience.servlet.web.frontcontroller.v4.controller.MemberListControllerV4;
 import resilience.servlet.web.frontcontroller.v4.controller.MemberSaveControllerV4;
@@ -40,9 +44,7 @@ public class FrontControllerServletV4 extends HttpServlet {
         Map<String, Object> model = new HashMap<>();
 
         String viewName = controller.process(paramMap, model);
-
         MyView view = viewResolver(viewName);
-
         view.render(model, request, response);
     }
 
